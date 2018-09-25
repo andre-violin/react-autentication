@@ -2,14 +2,18 @@ import moduleName from 'firebase/app'
 
 // Initialize Firebase
 var config = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DATABASE_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID"
+  apiKey: "AIzaSyBNW2Uyo5A8eK1H2SNbckfZ_v9m75Ih-U4",
+  authDomain: "todo-5354b.firebaseapp.com",
+  databaseURL: "https://todo-5354b.firebaseio.com",
+  projectId: "todo-5354b",
+  storageBucket: "todo-5354b.appspot.com",
+  messagingSenderId: "1002413178959"
 }
 
-if(!firebase.apps.length){
+if (!firebase.apps.length) {
   firebase.initializeApp(config);
 }
+
+const auth = firebase.auth()
+
+export { auth }
