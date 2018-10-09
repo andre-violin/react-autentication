@@ -1,6 +1,8 @@
 import React from 'react'
 
-const SignOut = () => 
-  <p>Fechar</p>
+import { auth } from '../firebase'
 
-export default SignOut
+const SignOutButton = () => 
+  <button type="button" onClick={auth.sair}>Sair</button>
+
+export default SignOutButton

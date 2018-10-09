@@ -1,4 +1,5 @@
-import moduleName from 'firebase/app'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 // Initialize Firebase
 var config = {
@@ -16,4 +17,4 @@ if (!firebase.apps.length) {
 
 const auth = firebase.auth()
 
-export { auth }
+export { auth, firebase }

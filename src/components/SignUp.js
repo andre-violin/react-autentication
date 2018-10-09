@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
+import { auth } from '../firebase'
 import * as routes from '../constants/routes'
 
-const SignUpPage = () =>
+const SignUpPage = ({ history }) =>
   <div>
     <h1>Criar usuário</h1>
-    <SignUpForm />
+    <SignUpForm history={history} />
   </div>
 
 const ESTADO_INICIAL = {
@@ -28,13 +29,29 @@ class SignUpForm extends Component {
     this.state = { ...ESTADO_INICIAL }
   }
 
-  onSubmit = (event) => {
+  onSubmit = (evento) => {
+    const { usuario, email, senhaUm, senhaDois } = this.state
 
+    const { history } = this.props
+
+    auth.criarUsuarioComEmailESenha(email, senhaUm)
+      .then(usuarioAutenticado => {
+        this.setState({ ...ESTADO_INICIAL })
+        history.push(routes.HOME)
+      })
+      .catch( erro => {
+        this.setState(propriedadeChave('error', erro))
+      } )
+
+      evento.preventDefault()
   }
 
   render() {
     const { usuario, email, senhaUm, senhaDois, error } = this.state
-    usuario
+    const invalido = senhaUm !== senhaDois || 
+                     senhaUm === '' || 
+                     senhaDois === '' ||
+                     usuario == ''
     return (
       <form onSubmit={this.onSubmit}>
         <input
@@ -62,7 +79,7 @@ class SignUpForm extends Component {
           placeholder="Confirme a Senha"
         />
 
-        <button type="submit">Cadastrar</button>
+        <button disabled={invalido} type="submit">Cadastrar</button>
 
         { error && <p>{error.message}</p> }
       </form>
@@ -77,7 +94,7 @@ const SignUpLink = () =>
     <Link to={routes.SIGN_UP}>Cadastrar</Link>
   </p>
 
-export default SignUpPage
+export default withRouter(SignUpPage)
 
 export {
   SignUpForm,
