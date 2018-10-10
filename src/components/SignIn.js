@@ -4,11 +4,13 @@ import { withRouter } from 'react-router-dom'
 import { SignUpLink } from './SignUp'
 import { auth } from '../firebase'
 import * as routes from '../constants/routes'
+import { PasswordForgetLink } from './PasswordForget'
 
 const SignInPage = ({ history }) =>
   <div>
     <h1>Autenticar usuário</h1>
     <SignInForm history={history} />
+    <PasswordForgetLink />
     <SignUpLink />
   </div>
 
@@ -35,24 +37,24 @@ class SignInForm extends Component {
     const { history } = this.props
 
     auth.autenticacaoComEmailESenha(email, senha)
-      .then( () => {
+      .then(() => {
         this.setState({ ...ESTADO_INICIAL })
         history.push(routes.HOME)
       })
-      .catch( erro => {
+      .catch(erro => {
         this.setState(propriedadeChave('error', erro))
-      } )
+      })
 
-      evento.preventDefault()
+    evento.preventDefault()
   }
 
   render() {
     const { email, senha, error } = this.state
     const invalido = senha === '' ||
-                     email == ''
+      email == ''
     return (
       <form onSubmit={this.onSubmit}>
-        
+
         <input
           value={email}
           onChange={event => this.setState(propriedadeChave('email', event.target.value))}
@@ -69,7 +71,7 @@ class SignInForm extends Component {
 
         <button disabled={invalido} type="submit">Entrar</button>
 
-        { error && <p>{error.message}</p> }
+        {error && <p>{error.message}</p>}
       </form>
     )
   }
