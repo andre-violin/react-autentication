@@ -1,8 +1,20 @@
 import React from 'react'
 
-const AccountPage = () => 
-  <div>
-    <h1>Account Page</h1>
-  </div>
+import ContextoUsuario from './ContextoUsuario'
+import { PasswordForgetForm} from './PasswordForget'
+import PasswordChangeForm from './PasswordChange'
+import comAutorizacao from './comAutorizacao'
 
-export default AccountPage
+const AccountPage = () => 
+  <ContextoUsuario>
+    {usuarioAutenticado => 
+      <div>
+        <h1>Conta: {usuarioAutenticado.email}</h1>
+        <PasswordForgetForm />
+        <PasswordChangeForm />
+      </div>
+    }
+  </ContextoUsuario>
+
+const condicaoAutorizacao = (usuarioAutenticado) => !!usuarioAutenticado
+export default comAutorizacao(condicaoAutorizacao)(AccountPage)
